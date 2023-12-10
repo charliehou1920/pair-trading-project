@@ -380,10 +380,10 @@ class PairTrading(FlowSpec):
         # Get the dataframe of stocks with 'Information Technology' Sector
         self.it_sector_tables = get_tables_by_sector(sp500_stock_tables_standardized, 'Information Technology')
 
-        self.next(self.Clustering)
+        self.next(self.clustering)
 
     @step
-    def Clustering(self):
+    def clustering(self):
         '''
         Step 2: Apply PCA to the dataframe of stocks in IT sector. Set the n_components to 3.
         Then, clustering the data with OPTICS and set the min_samples to 5. Save different clusters of stock
@@ -400,10 +400,10 @@ class PairTrading(FlowSpec):
         # Build the cluster dictionary
         self.clustered_lists_dict = separate_clusters_to_lists(clustered_df)
 
-        self.next(self.Pairing)
+        self.next(self.pairing)
 
     @step
-    def Pairing(self):
+    def pairing(self):
         '''
         Step 3: Find the cointegrated pairs of stock in each cluster with Engle-Granger test. Check the 
         stationary of the spread of stocks which have passed Engle-Granger test with hurst exponent.
@@ -412,10 +412,10 @@ class PairTrading(FlowSpec):
         for cluster, pairs in self.cointegrated_pairs_clusters.items():
             print(f"Cluster {cluster} Pairs of stocks that are cointegrated and whose price differences exhibit mean-reverting behavior: {pairs}")
 
-        self.next(self.Trading_with_LSTM)
+        self.next(self.trading_with_lstm)
 
     @step
-    def Trading_with_LSTM(self):
+    def trading_with_lstm(self):
         '''
         Step 4: After obtain the the pairs of stock, use LSTM generate buy and sell signals for trading.
         Apply the LSTM on each pair of the selected stock, run the strategy based on the buy/sell/hold
