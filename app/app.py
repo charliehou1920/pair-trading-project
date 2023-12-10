@@ -49,5 +49,26 @@ def main():
         # 显示表格
         st.table(df)
 
+    # 如果选中的股票对是 ('CDNS', 'SNPS')，显示特定的图片
+    if selected_pair == ('CDNS', 'SNPS'):
+        st.image("../image/portfolio_CDNS_SNPS.png")
+    if selected_pair == ('ADI', 'MCHP'):
+        st.image("../image/portfolio_ADI_MCHP.png")
+    if selected_pair == ('ADI', 'MPWR'):
+        st.image("../image/portfolio_ADI_MPWR.png")
+    if selected_pair == ('AMAT', 'NXPI'):
+        st.image("../image/portfolio_AMAT_NXPI.png")
+    if selected_pair == ('LRCX', 'NXPI'):
+        st.image("../image/portfolio_LRCX_NXPI.png")
+    if selected_pair == ('QRVO', 'SWKS'):
+        st.image("../image/portfolio_QRVO_SWKS.png")
+    if selected_pair == ('CSCO', 'TDY'):
+        st.image("../image/portfolio_CSCO_TDY.png")
+    if selected_pair == ('NTAP', 'TDY'):
+        st.image("../image/portfolio_NTAP_TDY.png")
+    if selected_pair == ('WDC', 'ZBRA'):
+        st.image("../image/portfolio_WDC_ZBRA.png")
+        
+        
 if __name__ == "__main__":
     main()
