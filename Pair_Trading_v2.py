@@ -438,7 +438,13 @@ class PairTrading(FlowSpec):
             print(f"Final Return: {item['results']['Final Return']}")
             print(f"Max Drawdown: {item['results']['Max Drawdown']}")
             print(f"Sharpe Ratio: {item['results']['Sharpe Ratio']}")
-            print("\n")       
+            print("\n")
+
+        self.next(self.end)
+
+    @step
+    def end(self):
+        print("You have finished the Pair Trading!")       
 
 
 
