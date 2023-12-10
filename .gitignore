@@ -5,6 +5,6 @@ build/
 dist/
 wheels/
 *.egg-info
-
+.metaflow
 # venv
 .venv
