@@ -3,7 +3,7 @@ name = "pair-trading-project"
 version = "0.1.0"
 description = "Add your description here"
 authors = [
-    { name = "NorthSeaPark", email = "hou.308@osu.edu" }
+    { name = "Charlie Hou", email = "yh4298@nyu.edu" }
 ]
 dependencies = [
     "metaflow>=2.10.8",
