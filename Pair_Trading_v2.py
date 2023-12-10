@@ -422,7 +422,7 @@ class PairTrading(FlowSpec):
         signals. Backtest, plot and print the results at last.
         '''
         # Save every pair of stock
-        all_results = []
+        self.all_results = []
 
         # Go through every pair of stocks in cointegrated_pairs_clusters
         for cluster, pairs in self.cointegrated_pairs_clusters.items():
@@ -430,10 +430,10 @@ class PairTrading(FlowSpec):
                 # apply train_and_evaluate_model function on every pair of stocks
                 result = train_and_evaluate_model(ticker_pair)
                 # add the result to the list
-                all_results.append({'pair': ticker_pair, 'results': result})
+                self.all_results.append({'pair': ticker_pair, 'results': result})
 
         # Show the results
-        for item in all_results:
+        for item in self.all_results:
             print(f"Results for Ticker Pair {item['pair']}:")
             print(f"Final Return: {item['results']['Final Return']}")
             print(f"Max Drawdown: {item['results']['Max Drawdown']}")
