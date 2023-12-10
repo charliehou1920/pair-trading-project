@@ -121,7 +121,7 @@ def cluster_stocks_with_optics(principal_components_df, min_samples):
 
         plt.title('OPTICS Clustering of Stocks')
         # Save the plot
-        plt.savefig(f'data/OPTICS_Clustering.png')
+        plt.savefig(f'../data/OPTICS_Clustering.png')
         plt.close()
 
     return principal_components_df
@@ -286,7 +286,7 @@ def train_and_evaluate_model(ticker_pair):
     # Make sure the path of 'data' exists
     if not os.path.exists('data'):
         os.makedirs('data')
-    plt.savefig(f'data/portfolio_{ticker_pair[0]}_{ticker_pair[1]}.png')
+    plt.savefig(f'../data/portfolio_{ticker_pair[0]}_{ticker_pair[1]}.png')
     plt.close()
 
     # return the results
