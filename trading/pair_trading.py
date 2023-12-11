@@ -223,6 +223,95 @@ def build_model(input_shape):
     model.compile(optimizer=Adam(lr=0.001), loss='mean_squared_error')
     return model
 
+def train_and_evaluate_model_v1(ticker_pair):
+    # collect the data and calculate spread
+    stock1 = yf.download(ticker_pair[0], start='2015-01-01', end='2023-12-05')['Close']
+    stock2 = yf.download(ticker_pair[1], start='2015-01-01', end='2023-12-05')['Close']
+    price_difference = stock1 - stock2
+
+    # Normalize the price difference
+    look_back = 60
+    price_difference_normalized = (price_difference - np.mean(price_difference)) / np.std(price_difference)
+
+    # Split the dataset into training, validation, and test sets
+    train_size = int(len(price_difference_normalized) * 0.7)
+    validation_size = int(len(price_difference_normalized) * 0.1)
+    test_size = len(price_difference_normalized) - train_size - validation_size
+
+    train_data = price_difference_normalized[:train_size]
+    validation_data = price_difference_normalized[train_size:train_size + validation_size]
+    test_data = price_difference_normalized[-test_size:]  # Adjusted to take the last 20%
+
+    X_train, y_train = preprocess_data(train_data, look_back)
+    X_val, y_val = preprocess_data(validation_data, look_back)
+    X_test, y_test = preprocess_data(test_data, look_back)
+
+    # Build and train the model
+    model = build_model((X_train.shape[1], 1))
+    model.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=100, batch_size=32)
+
+    # Evaluate the model on the test set
+    test_loss = model.evaluate(X_test, y_test)
+    print(f'Test Loss: {test_loss}')
+
+    # Generate Trading Signal
+    predicted_price_diff = model.predict(X_test)
+    actual_price_diff = test_data[look_back:look_back + len(predicted_price_diff)]
+    percentage_change = (predicted_price_diff[:-1].flatten() - actual_price_diff[:-1]) / actual_price_diff[:-1]
+
+    upper_threshold = 0.3
+    lower_threshold = -0.3
+    signals = np.where(percentage_change > upper_threshold, 1, np.where(percentage_change < lower_threshold, -1, 0))
+
+    # Back Testing
+    initial_cash = 10000
+    asset_holdings = np.zeros_like(signals)
+    cash = np.zeros_like(signals)
+    cash[0] = initial_cash
+
+    # Adjust the loop to align with the length of the test data
+    for t in range(1, len(signals)):
+        if t < len(test_data.values) - look_back:
+            asset_holdings[t] = asset_holdings[t-1] + signals[t-1]
+            cash[t] = cash[t-1] - signals[t-1] * test_data.values[t + look_back - 1]
+
+    portfolio_value = initial_cash + asset_holdings * test_data.values[look_back:-1]
+
+    # Evaluations
+    final_return = portfolio_value[-1] - initial_cash
+    peak = np.maximum.accumulate(portfolio_value)
+    drawdown = (peak - portfolio_value) / peak
+    max_drawdown = np.max(drawdown)
+    portfolio_returns = np.diff(portfolio_value) / portfolio_value[:-1]
+    sharpe_ratio = np.mean(portfolio_returns) / np.std(portfolio_returns)
+
+    # Plot and save the plot
+    sp500_data = yf.download('SPY', start='2020-01-01', end='2023-12-05')['Close']
+
+    # Rescaled S&P 500 data
+    sp500_scaled = sp500_data / sp500_data.iloc[0] * initial_cash
+
+    plt.figure(figsize=(12, 6))
+    plt.plot(portfolio_value, label='Portfolio Value')
+    plt.plot(sp500_scaled.values, label='S&P 500', alpha=0.7)
+    plt.title(f'Portfolio Value Over Time for {ticker_pair[0]} and {ticker_pair[1]} VS S&P500')
+    plt.xlabel('Time')
+    plt.ylabel('Value in $')
+    plt.legend()
+
+    # Make sure the path of 'data' exists
+    # if not os.path.exists('data'):
+    #     os.makedirs('data')
+    plt.savefig(f'../image/portfolio_{ticker_pair[0]}_{ticker_pair[1]}.png')
+    plt.close()
+
+    # return the results
+    return {
+        "Final Return": final_return,
+        "Max Drawdown": max_drawdown,
+        "Sharpe Ratio": sharpe_ratio,
+        "Test Loss": test_loss
+    }
 
 # Write Deep Neural Network as a function
 def train_and_evaluate_model(ticker_pair):
