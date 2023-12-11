@@ -247,6 +247,7 @@ def train_and_evaluate_model_v1(ticker_pair):
     validation_data = price_difference_normalized[train_size:train_size + validation_size]
     test_data = price_difference_normalized[-test_size:]  # Adjusted to take the last 20%
 
+    # Preprocess the data in training/validation/test set
     X_train, y_train = preprocess_data(train_data, look_back)
     X_val, y_val = preprocess_data(validation_data, look_back)
     X_test, y_test = preprocess_data(test_data, look_back)
