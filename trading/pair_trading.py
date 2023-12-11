@@ -119,7 +119,7 @@ def cluster_stocks_with_optics(principal_components_df, min_samples):
             plt.xlabel('PC1')
             plt.ylabel('PC2')
 
-        plt.title('OPTICS Clustering of Stocks')
+        plt.title('OPTICS Clustering of IT Stocks in S&P500')
         # Save the plot
         plt.savefig(f'../image/OPTICS_Clustering.png')
         plt.close()
