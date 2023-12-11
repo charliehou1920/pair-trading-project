@@ -223,6 +223,7 @@ def build_model(input_shape):
     model.compile(optimizer=Adam(lr=0.001), loss='mean_squared_error')
     return model
 
+# Train the model and apply it on trading
 def train_and_evaluate_model_v1(ticker_pair):
     # collect the data and calculate spread
     stock1 = yf.download(ticker_pair[0], start='2015-01-01', end='2023-12-05')['Close']
@@ -230,10 +231,14 @@ def train_and_evaluate_model_v1(ticker_pair):
     price_difference = stock1 - stock2
 
     # Normalize the price difference
+    # Slide window size for LSTM is 60 (Look back 60 days)
     look_back = 60
     price_difference_normalized = (price_difference - np.mean(price_difference)) / np.std(price_difference)
 
     # Split the dataset into training, validation, and test sets
+    # Training set 70%
+    # Validation set 10%
+    # Test set 20%
     train_size = int(len(price_difference_normalized) * 0.7)
     validation_size = int(len(price_difference_normalized) * 0.1)
     test_size = len(price_difference_normalized) - train_size - validation_size
@@ -313,7 +318,7 @@ def train_and_evaluate_model_v1(ticker_pair):
         "Test Loss": test_loss
     }
 
-# Write Deep Neural Network as a function
+# Train the model and apply it on trading(an alternative way, you can skip this part)
 def train_and_evaluate_model(ticker_pair):
     # collect the data and calculate spread
     stock1 = yf.download(ticker_pair[0], start='2020-01-01', end='2023-12-05')['Close']
