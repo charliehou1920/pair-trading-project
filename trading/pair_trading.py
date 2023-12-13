@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from statsmodels.tsa.stattools import adfuller, coint
 from tensorflow import keras
 from keras.models import Sequential
-from keras.layers import Dense, LSTM, Dropout
+from keras.layers import Dense, LSTM, Dropout, Bidirectional, GRU
 from keras.optimizers import Adam
 from metaflow import FlowSpec, step, IncludeFile
 import os
@@ -218,6 +218,31 @@ def build_model(input_shape):
     model.add(LSTM(units=50, return_sequences=True, input_shape=input_shape))
     model.add(Dropout(0.2))
     model.add(LSTM(units=50))
+    model.add(Dropout(0.2))
+    model.add(Dense(units=1))
+    model.compile(optimizer=Adam(lr=0.001), loss='mean_squared_error')
+    return model
+
+# Build the GRU model
+def build_gru_model(input_shape):
+    model = Sequential()
+    model.add(GRU(units=100, return_sequences=True, input_shape=input_shape))
+    model.add(Dropout(0.3))
+    model.add(GRU(units=70, return_sequences=True))
+    model.add(Dropout(0.3))
+    model.add(GRU(units=30))
+    model.add(Dropout(0.2))
+    model.add(Dense(units=50, activation='relu'))
+    model.add(Dense(units=1))
+    model.compile(optimizer=Adam(lr=0.001), loss='mean_squared_error')
+    return model
+
+# Build a Bi-directional LSTM model
+def build_bidirectional_lstm_model(input_shape):
+    model = Sequential()
+    model.add(Bidirectional(LSTM(units=50, return_sequences=True), input_shape=input_shape))
+    model.add(Dropout(0.2))
+    model.add(Bidirectional(LSTM(units=50)))
     model.add(Dropout(0.2))
     model.add(Dense(units=1))
     model.compile(optimizer=Adam(lr=0.001), loss='mean_squared_error')
