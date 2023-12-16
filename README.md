@@ -7,7 +7,7 @@
 <p> - After the metaflow data are generated, run app.py in "app" folder to generate a web application using streamlit.
 <p> - The presentation PPT is stored in "presentation" folder.
 
-<p> The link of our results on comet: https://www.comet.com/charlie-hou/pair-trading/view/new/panels
+<p> The link of our results on Comet: https://www.comet.com/charlie-hou/pair-trading/view/new/panels
 
 <p> The link of our presentation on Google Slides: https://docs.google.com/presentation/d/1aSGt7mE4wnzOKXTwC3dksQBrlEw2czEXxFZdpfse0ec/edit?usp=sharing
 
