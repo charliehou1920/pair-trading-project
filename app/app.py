@@ -31,25 +31,25 @@ def main():
     st.image("../image/OPTICS_Clustering.png")
 
     # Brief Summary of The Project
-    st.write("We use OPTICS and LSTM algorithms for stock pairing and trading.")
+    st.write("This project implements a pairs trading strategy using machine learning methods. There are two parts for this project. In the first part of the project, we used unsupervised learning techniques like OPTICS clustering and statistical methods such as Engle-Granger test to filter out the qualified pairs of stocks for trading. In the second part, A LSTM model was implemented to generate buy and sell signals for trading. We built a basktesting system to evaluate the returns of our pair trading strategy and compared it with the benchmark of S&P 500 index")
 
-    # 提取股票对用于下拉框
+    # Retrieve each pair of stock from the results
     pairs = [result['pair'] for result in results]
 
-    # 创建一个下拉框让用户选择股票对
+    # Create a dropdown select box
     selected_pair = st.selectbox("Select a stock pair:", pairs)
 
-    # 找到选中的股票对对应的数据
+    # Find the data of the selected stocks
     selected_result = next((item for item in results if item['pair'] == selected_pair), None)
 
-    # 如果找到了选中的股票对的数据
+    # If the selected stocks are found
     if selected_result:
-        # 将结果转换为DataFrame以便于显示
+        # Convert the results to dataframe
         df = pd.DataFrame.from_dict(selected_result['results'], orient='index', columns=['Value'])
-        # 显示表格
+        # Display the table
         st.table(df)
 
-    # 如果选中的股票对是 ('CDNS', 'SNPS')，显示特定的图片
+    # Generate the plots of the backtests
     if selected_pair == ('CDNS', 'SNPS'):
         st.image("../image/portfolio_CDNS_SNPS.png")
     if selected_pair == ('ADI', 'MCHP'):
