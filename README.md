@@ -1,5 +1,12 @@
 # pair-trading-project
+### Setup and Links
+<p>The dependencies of this project are stored in the pyproject.toml which you can find it in the repo. Please use rye commands such as "rye sync" to setup this project. 
+<p>Pair_Trading_Research.ipynb stored in "trading" folder is the research branch for this project. It contains EDA, hyper-parameters tuning, and model selection. We recommend you to run it on Google Colab.
+<p> pair_trading.py stored in "trading" folder this is the dev branch of this project. <b>Run this file first<b> to generate the metaflow data.
+<p> After the metaflow data are generated, run app.py in "app" folder to generate a web application using streamlit.
+<p> The presentation PPT is stored in "presentation" folder.
 
+### Introduction
 <p>This project implements a pairs trading strategy using machine learning methods. There are two parts for this project. In the first part of the project, we used unsupervised learning techniques like OPTICS clustering and statistical methods such as Engle-Granger test to filter out the qualified pairs of stocks for trading. In the second part, A LSTM model was implemented to generate buy and sell signals for trading. We built a basktesting system to evaluate the returns of our pair trading strategy and compared it with the benchmark of S&P 500 index. The followings are the details of this project:
 <p> (1) Dataset: The tickers of 500 stocks from S&P500 were fetched from Wikipedia. The data of stocks were retrieved from Yahoo Finance API.
 <p> (2) EDA: We fetched the data, dropped the null values, and standardized the data in our EDA.
