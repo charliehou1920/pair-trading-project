@@ -1,10 +1,10 @@
 # pair-trading-project
 ### Setup and Links
 
-<p> - The dependencies of this project are stored in the pyproject.toml which you can find it in the repo. Please use rye commands such as "rye sync" to setup this project. 
+<p> - The dependencies of this project are stored in the pyproject.toml which you can find it in the repo. Please use rye commands "rye sync" to setup this project. Also note you have to delete the .venv folder first before run "rye sync"
 <p> - Pair_Trading_Research.ipynb stored in "trading" folder is the research branch for this project. It contains EDA, hyper-parameters tuning, and model selection. We recommend you to run it on Google Colab.
-<p> - pair_trading.py stored in "trading" folder this is the dev branch of this project. <b>Run this file first</b> to generate the metaflow data.
-<p> - After the metaflow data are generated, run app.py in "app" folder to generate a web application using streamlit.
+<p> - pair_trading.py stored in "trading" folder this is the dev branch of this project. <b>Run this file first</b> to generate the metaflow data. To run pair_trading.py successfully, please run "python pair_trading.py" first and then run "python pair_trading.py run".
+<p> - After the metaflow data are generated, run app.py in "app" folder to generate a web application using streamlit. To run app.py successfully, please run the command "python app.py" first and then run "python -m streamlit run app.py" to generate the web page.
 <p> - The presentation PPT is stored in "presentation" folder.
 
 <p> The link of our results on Comet: https://www.comet.com/charlie-hou/pair-trading/view/new/panels
